@@ -1,0 +1,59 @@
+#!/bin/python3
+
+import argparse
+import pprint
+import math
+
+# Main function. This is the main entry-point into the algorithm
+
+def main():
+	parse_args()
+	parse_data_file()
+	pp = pprint.PrettyPrinter(indent=4)
+	print(euclid_dist(data_set[0], data_set[1]))
+
+args = {}
+flags = []
+data_set = []
+pattern_length = 0
+
+def fatalError(msg):
+	print()
+	print("Error: " + msg)
+	print()
+	exit()
+
+def parse_args():
+	global args
+	parser = argparse.ArgumentParser()
+	parser.add_argument("data", help="The input set to cluster from.")
+	parser.add_argument("clusters", help="The number of clusters to create.", type=int)
+	parser.add_argument("output", help="The file to write the output to.")
+	parser.add_argument("test", help="The file to test the centroid vectors on.")
+	parser.add_argument("algorithm", help="The algorithm to use.", type=int)
+	args = parser.parse_args()
+
+def add_entry(line):
+	line = line.strip()
+	if line != "":
+		data_set.append(list(map(lambda x : float(x), line.split("\t"))))
+
+def parse_data_file():
+	global pattern_length
+	file = open(args.data)
+	for line in file:
+		add_entry(line)
+	file.close()
+	pattern_length = len(data_set[0])
+	for pattern in data_set:
+		if len(pattern) != pattern_length:
+			fatalError("Mismatch between pattern lengths in data set.")
+
+def euclid_dist(from_vector, to_vector):
+	total = 0
+	for x in range(0, pattern_length):
+		total += math.pow(from_vector[x] - to_vector[x], 2)
+	return math.sqrt(total)
+
+if __name__ == "__main__":
+	main()
