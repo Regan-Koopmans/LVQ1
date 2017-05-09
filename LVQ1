@@ -10,12 +10,17 @@ def main():
 	parse_args()
 	parse_data_file()
 	pp = pprint.PrettyPrinter(indent=4)
-	print(euclid_dist(data_set[0], data_set[1]))
+	initialize_weights()
+	pp.pprint(weight_matrix)
+	train()
+	pp.pprint(weight_matrix)
 
 args = {}
 flags = []
 data_set = []
+learning_rate = 1
 pattern_length = 0
+weight_matrix = []
 
 def fatalError(msg):
 	print()
@@ -49,11 +54,32 @@ def parse_data_file():
 		if len(pattern) != pattern_length:
 			fatalError("Mismatch between pattern lengths in data set.")
 
+def initialize_weights():
+	global weight_matrix
+	print("Initializing matrix with " + str(args.clusters) + " x " + str(pattern_length))
+	weight_matrix = [[ 0 for x in range(pattern_length)] for y in range(args.clusters)]
+
 def euclid_dist(from_vector, to_vector):
 	total = 0
-	for x in range(0, pattern_length):
+	for x in range(pattern_length):
 		total += math.pow(from_vector[x] - to_vector[x], 2)
 	return math.sqrt(total)
+
+def coerce_vector(input_vector, to_vector):
+	for x in range(len(input_vector)):
+		input_vector[x] = input_vector[x] - learning_rate*(input_vector[x] - to_vector[x]);
+	return input_vector
+
+def train():
+	for entry in data_set:
+		smallest_distance = math.inf
+		smallest_distance_index = -1
+		for x in range(len(weight_matrix)):
+			current_dist = euclid_dist(entry, weight_matrix[x])
+			if current_dist < smallest_distance:
+				smallest_distance = current_dist
+				smallest_distance_index = x
+		weight_matrix[smallest_distance_index] = coerce_vector(weight_matrix[smallest_distance_index], entry)
 
 if __name__ == "__main__":
 	main()
