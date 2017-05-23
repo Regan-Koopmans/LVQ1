@@ -115,22 +115,25 @@ class LVQ:
                     self.weight_matrix[smallest_distance_index] = \
                       self.coerce_vector(self.weight_matrix[smallest_distance_index], entry)
         else:
-            genetic_algorithm = GA(20, self)
+            genetic_algorithm = GA(25, self)
             genetic_algorithm.initialize_population()
             genetic_algorithm.iterate(self.args.iterations)
             self.weight_matrix = genetic_algorithm.get_best_individual()
 
-    def allocate_clusters(self):
+    def allocate_clusters(self, weight_matrix):
         """ Gives a cluster to every data entry """
         for entry in self.data_set:
             min_cluster = None
             min_cluster_distance = None
-            for index in range(len(self.weight_matrix)):
+            for index in range(len(weight_matrix)):
                 if min_cluster is None or \
-                    self.euclid_dist(entry, self.weight_matrix[index]) < min_cluster_distance:
+                    self.euclid_dist(entry, weight_matrix[index]) < min_cluster_distance:
                     min_cluster = index
-                    min_cluster_distance = self.euclid_dist(entry, self.weight_matrix[index])
-            entry.append(min_cluster)
+                    min_cluster_distance = self.euclid_dist(entry, weight_matrix[index])
+            if len(entry) == self.pattern_length:
+                entry.append(min_cluster)
+            else:
+                entry[self.pattern_length] = min_cluster
 
     def average_inter_cluster_distance(self, weight_matrix):
         """ Calculates average intercluster distance """
@@ -139,6 +142,13 @@ class LVQ:
             for to_vector in weight_matrix:
                 total += self.euclid_dist(from_vector, to_vector)
         return total / len(weight_matrix)**2
+
+    def average_intra_cluster_distance_all_clusters(self, weight_matrix):
+        """ asdf """
+        total = 0
+        for cluster in range(self.args.clusters):
+            total += self.average_intra_cluster_distance(weight_matrix, cluster);
+        return total / self.args.clusters
 
     def average_intra_cluster_distance(self, weight_matrix, cluster):
         """ Calculates average intracluster distance for a centroid """

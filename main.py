@@ -33,7 +33,7 @@ def main():
     for index in range(len(lvq.weight_matrix)):
         output(file, "Centroid " + str(index+1) + ": "  + array_to_string(lvq.weight_matrix[index]))
     output(file, "")
-    lvq.allocate_clusters()
+    lvq.allocate_clusters(lvq.weight_matrix)
     output(file, "Quantization error: " +
            str(lvq.average_inter_cluster_distance(lvq.weight_matrix)))
     output(file, "Average inter-cluster distance: " +
@@ -45,6 +45,7 @@ def main():
     output(file, "")
     for index in range(len(lvq.data_set)):
         output(file, "Pattern " + str(index+1) + ": " + str(lvq.data_set[index][-1]))
+    
     file.close()
 
 def output(file, msg):
