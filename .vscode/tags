@@ -1,0 +1,45 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ArgumentParser	../lvq.py	/^from argparse import ArgumentParser$/;"	kind:namespace	line:19
+GA	../ga.py	/^class GA:$/;"	kind:class	line:20
+GA	../lvq.py	/^from ga import GA$/;"	kind:namespace	line:21
+LVQ	../lvq.py	/^class LVQ:$/;"	kind:class	line:30
+LVQ	../main.py	/^from lvq import LVQ$/;"	kind:namespace	line:22
+__init__	../ga.py	/^    def __init__(self, population_size, lvq):$/;"	kind:member	line:26
+add_entry	../lvq.py	/^    def add_entry(self, line):$/;"	kind:member	line:49
+allocate_clusters	../lvq.py	/^    def allocate_clusters(self):$/;"	kind:member	line:122
+args	../lvq.py	/^    args = {}$/;"	kind:variable	line:32
+array_to_string	../main.py	/^def array_to_string(array):$/;"	kind:function	line:57
+average_inter_cluster_distance	../lvq.py	/^    def average_inter_cluster_distance(self, weight_matrix):$/;"	kind:member	line:134
+average_intra_cluster_distance	../lvq.py	/^    def average_intra_cluster_distance(self, weight_matrix, cluster):$/;"	kind:member	line:142
+coerce_vector	../lvq.py	/^    def coerce_vector(self, input_vector, to_vector):$/;"	kind:member	line:95
+cross_over	../ga.py	/^    def cross_over(self):$/;"	kind:member	line:48
+data_set	../lvq.py	/^    data_set = []$/;"	kind:variable	line:33
+euclid_dist	../lvq.py	/^    def euclid_dist(self, from_vector, to_vector):$/;"	kind:member	line:88
+fatal_error	../lvq.py	/^def fatal_error(msg):$/;"	kind:function	line:23
+ga.py	../ga.py	1;"	kind:file	line:1
+get_maxima_array	../lvq.py	/^    def get_maxima_array(self):$/;"	kind:member	line:66
+initialize_population	../ga.py	/^    def initialize_population(self):$/;"	kind:member	line:30
+initialize_weights	../lvq.py	/^    def initialize_weights(self):$/;"	kind:member	line:79
+iterate	../ga.py	/^    def iterate(self, num_iterations):$/;"	kind:member	line:39
+learning_rate	../lvq.py	/^    learning_rate = 1$/;"	kind:variable	line:34
+lvq	../ga.py	/^    lvq = None$/;"	kind:variable	line:24
+lvq.py	../lvq.py	1;"	kind:file	line:1
+main	../main.py	/^def main():$/;"	kind:function	line:24
+main.py	../main.py	1;"	kind:file	line:1
+math	../lvq.py	/^import math$/;"	kind:namespace	line:20
+output	../main.py	/^def output(file, msg):$/;"	kind:function	line:52
+parse_args	../lvq.py	/^    def parse_args(self):$/;"	kind:member	line:38
+parse_data_file	../lvq.py	/^    def parse_data_file(self):$/;"	kind:member	line:55
+pattern_length	../lvq.py	/^    pattern_length = 0$/;"	kind:variable	line:35
+population	../ga.py	/^    population = []$/;"	kind:variable	line:23
+population_size	../ga.py	/^    population_size = 0$/;"	kind:variable	line:22
+select	../ga.py	/^    def select(self):$/;"	kind:member	line:44
+train	../lvq.py	/^    def train(self):$/;"	kind:member	line:103
+uniform	../ga.py	/^from random import uniform$/;"	kind:namespace	line:18
+uniform	../lvq.py	/^from random import uniform$/;"	kind:namespace	line:18
+weight_matrix	../lvq.py	/^    weight_matrix = []$/;"	kind:variable	line:36

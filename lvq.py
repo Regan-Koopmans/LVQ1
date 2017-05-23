@@ -14,9 +14,11 @@ Description : Encapsulates all functionality
               needed to train a simple LVQ
               neural network.
 """
-import math
-from argparse import ArgumentParser
+
 from random import uniform
+from argparse import ArgumentParser
+import math
+from ga import GA
 
 def fatal_error(msg):
     """ Prints out an error message and exits """
@@ -35,7 +37,6 @@ class LVQ:
 
     def parse_args(self):
         """ Parses the command line arguments """
-
         parser = ArgumentParser()
         parser.add_argument("data", help="The input set to cluster from.")
         parser.add_argument("clusters", help="The number of clusters to create.", type=int)
@@ -47,7 +48,6 @@ class LVQ:
 
     def add_entry(self, line):
         """ Adds a single data entry by processing a single line from the file. """
-
         line = line.strip()
         if line != "":
             self.data_set.append(list(map(lambda x: float(x), line.split("\t"))))
@@ -77,10 +77,8 @@ class LVQ:
         return maxima_array
 
     def initialize_weights(self):
-
         """  Initializes the network weights to a value
         uniformly distributed between min and max """
-
         maxima_array = self.get_maxima_array()
         print("Initializing matrix with " + str(self.args.clusters) + " x " +
               str(self.pattern_length))
@@ -89,7 +87,6 @@ class LVQ:
 
     def euclid_dist(self, from_vector, to_vector):
         """ Calculates the Euclidean distance between two vectors of similar dimension. """
-
         total = 0
         for index in range(self.pattern_length):
             total += math.pow(from_vector[index] - to_vector[index], 2)
@@ -97,7 +94,6 @@ class LVQ:
 
     def coerce_vector(self, input_vector, to_vector):
         """ Will move a vector to be closer to another, in proportion to the learning rate """
-
         for index in range(self.pattern_length):
             input_vector[index] = input_vector[index] - \
                 self.learning_rate*(input_vector[index] - to_vector[index])
@@ -105,22 +101,27 @@ class LVQ:
         return input_vector
 
     def train(self):
-        """ Trains the neural network iteratively"""
-        for _ in range(self.args.iterations):
-            for entry in self.data_set:
-                smallest_distance = float('inf')
-                smallest_distance_index = -1
-                for index in range(len(self.weight_matrix)):
-                    current_dist = self.euclid_dist(entry, self.weight_matrix[index])
-                    if current_dist < smallest_distance:
-                        smallest_distance = current_dist
-                        smallest_distance_index = index
-                self.weight_matrix[smallest_distance_index] = \
-                  self.coerce_vector(self.weight_matrix[smallest_distance_index], entry)
+        """ Trains the neural network either competitively or using a GA """
+        if self.args.algorithm == 0:
+            for _ in range(self.args.iterations):
+                for entry in self.data_set:
+                    smallest_distance = float('inf')
+                    smallest_distance_index = -1
+                    for index in range(len(self.weight_matrix)):
+                        current_dist = self.euclid_dist(entry, self.weight_matrix[index])
+                        if current_dist < smallest_distance:
+                            smallest_distance = current_dist
+                            smallest_distance_index = index
+                    self.weight_matrix[smallest_distance_index] = \
+                      self.coerce_vector(self.weight_matrix[smallest_distance_index], entry)
+        else:
+            genetic_algorithm = GA(20, self)
+            genetic_algorithm.initialize_population()
+            genetic_algorithm.iterate(self.args.iterations)
+            self.weight_matrix = genetic_algorithm.get_best_individual()
 
     def allocate_clusters(self):
         """ Gives a cluster to every data entry """
-
         for entry in self.data_set:
             min_cluster = None
             min_cluster_distance = None
@@ -131,20 +132,22 @@ class LVQ:
                     min_cluster_distance = self.euclid_dist(entry, self.weight_matrix[index])
             entry.append(min_cluster)
 
-    def average_inter_cluster_distance(self):
+    def average_inter_cluster_distance(self, weight_matrix):
         """ Calculates average intercluster distance """
         total = 0
-        for from_vector in self.weight_matrix:
-            for to_vector in self.weight_matrix:
+        for from_vector in weight_matrix:
+            for to_vector in weight_matrix:
                 total += self.euclid_dist(from_vector, to_vector)
-        return total / len(self.weight_matrix)**2
+        return total / len(weight_matrix)**2
 
-    def average_intra_cluster_distance(self, cluster):
+    def average_intra_cluster_distance(self, weight_matrix, cluster):
         """ Calculates average intracluster distance for a centroid """
         total = 0
         count = 0
         for entry in self.data_set:
             if entry[-1] == cluster:
                 count += 1
-                total += self.euclid_dist(entry, self.weight_matrix[cluster])
-        return total / count
+                total += self.euclid_dist(entry, weight_matrix[cluster])
+        if count != 0:
+            return total / count
+        return 0
