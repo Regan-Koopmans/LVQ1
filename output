@@ -1,23 +1,26 @@
 
-Centroid 1: 1.1163150900504573 2.1011552534057625 3.073218509305732 4.613077231048913 
-Centroid 2: 1.9241770064877548 2.5459516920600804 3.9085638726630196 4.764276425374584 
+Centroid 1: 1.000000 2.000000 3.000000 4.000000 
+Centroid 2: 1.999994 2.999995 3.999968 4.999996 
 
-Quantization error: 0.6267271775494817
-Average inter-cluster distance: 0.6267271775494817
+Quantization error (on training): 0.000033
+Quantization error (on testing): 0.000033
+Average inter-cluster distance: 0.999988
 
-Intra-distance cluster 1: 0.6363852817284399
-Intra-distance cluster 2: 0.525200115484403
+Intra-distance cluster 1: 0.000000 
+Intra-distance cluster 2: 0.000033 
+
+Clustering on unseen (testing) data:
 
 Pattern 1: 0
-Pattern 2: 1
-Pattern 3: 1
-Pattern 4: 1
-Pattern 5: 1
-Pattern 6: 1
-Pattern 7: 1
-Pattern 8: 1
-Pattern 9: 1
-Pattern 10: 1
+Pattern 2: 0
+Pattern 3: 0
+Pattern 4: 0
+Pattern 5: 0
+Pattern 6: 0
+Pattern 7: 0
+Pattern 8: 0
+Pattern 9: 0
+Pattern 10: 0
 Pattern 11: 1
 Pattern 12: 1
 Pattern 13: 1
@@ -30,3 +33,12 @@ Pattern 19: 1
 Pattern 20: 1
 Pattern 21: 1
 Pattern 22: 1
+Pattern 23: 1
+Pattern 24: 1
+Pattern 25: 1
+Pattern 26: 1
+Pattern 27: 1
+Pattern 28: 1
+Pattern 29: 1
+Pattern 30: 1
+Pattern 31: 1
